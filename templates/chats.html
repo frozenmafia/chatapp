@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+    <title>Chat</title>
+    <style>
+        /* Set up a grid layout for the entire page */
+        body {
+            display: grid;
+            grid-template-columns: 30% 70%;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Style the left side for available users */
+        .left-side {
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+
+        .user-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .user-list-item {
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        /* Style the right side for the chat area */
+        .right-side {
+            position: relative;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-container {
+            max-width: 100%;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            background-color: #fff;
+            flex-grow: 1; /* Allow chat container to grow and take available space */
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+        }
+
+        .message-sender {
+            background-color: #4CAF50;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .message-receiver {
+            background-color: #008CBA;
+            color: white;
+        }
+
+        /* Style the input container at the bottom */
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            align-items: flex-end; /* Align the input at the bottom */
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .send-button {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Left side for available users -->
+
+    <div class="left-side">
+        <div class="available-users">
+            <h1>Welcome {{username}}</h1>
+            <a href="{{ url_for('logout') }}" id="logout-button">Logout</a>
+            <h2>   Available Users</h2>
+            <ul>
+                {% for user in active_users %}
+                <li data-user='{{ user|tojson|safe }}' onclick="startChat(this)">{{ user.username }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Right side for chat area -->
+
+    <div class="right-side">
+
+
+        <div class="chat-container">
+            <!-- Chat messages will be displayed here -->
+
+        </div>
+        <div id="user-not-selected-error" style="display: none; color: red;">Please select a user to chat with.</div>
+        <!-- <div class="input-container">
+ 
+            <input type="text"  id="message-input" class="message-input" placeholder="Type your message...">
+            <button onclick="sendMessage()" class="send-button">Send</button>
+        </div> -->
+        <div class="chat-header">Chatting with <span id="chat-username"></span></div>
+        <div class="input-container">
+            
+            <div id="chat-messages"></div>
+            <input type="text" id="message-input" class="message-input" placeholder="Type a message...">
+            <button  class="send-button" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <script>
+        let selectedUserId = null; // Initialize selectedUserId as null
+
+        const socket = io.connect('http://127.0.0.1:5000');
+        // JavaScript to handle user clicks and initiate a chat
+        function startChat(liElement ) {
+
+            const userJson = liElement.getAttribute('data-user');
+            const user = JSON.parse(userJson);
+            document.getElementById('chat-username').textContent = user.username;
+
+            document.getElementById('chat-messages').innerHTML = '';
+
+            selectedUserId = user.id;
+        }
+
+        function sendMessage(username, id) {
+            const messageInput = document.getElementById('message-input');
+            const message = messageInput.value;
+
+            console.log(messageInput.value)
+            console.log(selectedUserId)
+
+            // Check if a user is selected
+            if (selectedUserId) {
+                // Emit a message event to the server with recipient ID and message content
+                        socket.emit('private-message', { recipientId: selectedUserId, message: message });
+
+                        // Display the sent message in the chat container
+                        displayMessage(`You to ${selectedUserName}: ${message}`);
+
+                        // Clear the message input field
+                        messageInput.value = '';
+
+                        // Hide the error message (if it was previously displayed)
+                        document.getElementById('user-not-selected-error').style.display = 'none';
+                    } else {
+                        // Show the error message
+                        document.getElementById('user-not-selected-error').style.display = 'block';
+                    }
+                }
+
+        function displayMessage(message) {
+            const chatContainer = document.querySelector('.chat-container');
+            const messageElement = document.createElement('div');
+            messageElement.textContent = message;
+            chatContainer.appendChild(messageElement);
+        }
+
+        socket.on('message', function (data) {
+        // Display incoming messages in the chat container
+        displayMessage(`${data.sender}: ${data.message}`);
+        });
+
+
+    </script>
+</body>
+</html>
+

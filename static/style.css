@@ -1,0 +1,193 @@
+/* Add styles to the container */
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the header */
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Style the form */
+/* Center the form within the container */
+.form {
+    text-align: center; /* Center the text content horizontally */
+    margin: 0 auto; /* Center the form horizontally */
+    max-width: 300px; /* Adjust the max-width as needed */
+}
+
+
+/* Style the form group (label + input) */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Style the labels */
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Style the text inputs */
+.textbox {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Style the error message */
+.error-message {
+    color: #ff0000;
+    font-size: 14px;
+    display: none;
+}
+
+/* Style the "Add Interest" button */
+#add-interest {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Style the bottom link */
+.bottom {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Apply styles to the submit button */
+.btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Apply styles on hover for buttons */
+.btn:hover, #add-interest:hover {
+    background-color: #0056b3;
+}
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.chat-container {
+    display: flex;
+    width: 800px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background-color: #f8f8f8;
+}
+
+.users-list {
+    flex: 1;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+}
+
+.user {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.user:hover {
+    background-color: #eee;
+}
+
+.message {
+    margin: 10px 0;
+}
+
+.available-users {
+    max-height: 200px; /* Set a maximum height for the user list */
+    overflow-y: auto; /* Add a scrollbar if the list exceeds the maximum height */
+}
+
+.available-users ul {
+    list-style-type: none; /* Remove list bullets */
+    padding: 0;
+}
+
+.available-users ul li {
+    margin: 5px 0;
+    cursor: pointer; /* Make each user clickable */
+    color: blue; /* Change the color to indicate it's clickable */
+}
+
+.available-users ul li:hover {
+    text-decoration: underline; /* Add underline on hover to indicate interactivity */
+}
+
+.chat-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Chat message style */
+.message {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+}
+
+/* Sender's message style */
+.message-sender {
+    background-color: #4CAF50;
+    color: white;
+    align-self: flex-end;
+}
+
+/* Receiver's message style */
+.message-receiver {
+    background-color: #008CBA;
+    color: white;
+}
+
+/* Input field and send button */
+.input-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.message-input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.send-button {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+}

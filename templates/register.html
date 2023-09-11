@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+	<link rel="stylesheet"  href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="word">Register</h1>
+        </div>
+        <form action="{{ url_for('register') }}" method="post" class="form" onsubmit="return validateForm()">
+            <div class="msg">{{ msg }}</div>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input id="username" name="username" type="text" placeholder="Enter Your Username" class="textbox" required pattern="[A-Za-z0-9]+">
+                <div id="username-error" class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input id="password" name="password" type="password" placeholder="Enter Your Password" class="textbox" required minlength="3">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input id="email" name="email" type="email" placeholder="Enter Your Email ID" class="textbox" required>
+            </div>
+            <div class="interest-section">
+                <p>Add Your Interests and Levels:</p>
+                <div id="interests-container">
+                    <!-- JavaScript will dynamically add interest fields here -->
+                </div>
+                <button type="button" id="add-interest">Add Interest</button>
+            </div>
+            <input type="submit" class="btn" value="Sign Up">
+        </form>
+        <p class="bottom">Already have an account? <a class="bottom" href="{{url_for('login')}}">Sign In here</a></p>
+    </div>
+
+
+	<script>
+		const usernameField = document.getElementById("username");
+		const usernameError = document.getElementById("username-error");
+		const interestsContainer = document.getElementById("interests-container");
+		const addInterestButton = document.getElementById("add-interest");
+		let interestCounter = 0;
+	
+		addInterestButton.addEventListener("click", function () {
+			const interestField = document.createElement("div");
+			interestField.innerHTML = `
+				<input type="text" name="interests[${interestCounter}][name]" placeholder="Interest Name" pattern="[A-Za-z ]+" title="Only letters and spaces allowed" required>
+				<input type="number" name="interests[${interestCounter}][level]" min="0" max="100" placeholder="Interest Level" required>
+			`;
+			interestsContainer.appendChild(interestField);
+			interestCounter++;
+		});
+	</script>
+	
+</body>
+</html>
